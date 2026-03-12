@@ -1,0 +1,15 @@
+name: unstitched-zarr-env
+channels:
+ - conda-forge
+ - nodefaults
+dependencies:
+ - python=3.12
+ - numpy
+ - scipy
+ - dask
+ - tifffile>=2023.9.26
+ - zarr
+ - ngff-zarr
+ - matplotlib
+ - tqdm
+ - pip
