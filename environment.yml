@@ -14,3 +14,5 @@ dependencies:
  - pip
  - pip:
    - git+https://github.com/fideus-labs/ngff-zarr.git@refs/pull/255/head#subdirectory=py
+   - git+https://github.com/jo-mueller/ome-zarr-py@introduce-image-class-v06
+   - git+https://github.com/jo-mueller/ome-zarr-models-py@rfc5
