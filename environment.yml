@@ -1,7 +1,7 @@
 name: unstitched-zarr-env
 channels:
  - conda-forge
- - nodefaults
+ - defaults
 dependencies:
  - python=3.12
  - numpy

@@ -1,7 +1,7 @@
 name: napari06-env
 channels:
  - conda-forge
- - nodefaults
+ - defaults
 dependencies:
  - python=3.12
  - requests
