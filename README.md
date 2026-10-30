@@ -4,7 +4,12 @@ Example notebooks for storing unstitched image tiles as OME-Zarr, with the tile 
 
 ## Notebooks
 
-Both notebooks write the example tiles in `data/example_cells` as an OME-Zarr 0.6 scene: one multiscale image per tile, plus a translation per tile into a `stitched` coordinate system. They differ only in the library used:
+Both notebooks write the example tiles in `data/example_cells` as an OME-Zarr 0.6 scene: one multiscale image per tile, plus a translation per tile into each of two scene coordinate systems:
+
+- `stitched` (the default view): the registered tile positions, read from the tiffs' XPosition/YPosition tags
+- `unstitched`: the original (acquisition) tile positions. These aren't stored in the tiffs, so the notebooks set them on a nominal grid from the filename's Y/X index (`<Y>_<X>_<Z>`) and a `grid_step`; replace these with the real stage positions where known.
+
+The notebooks differ only in the library used:
 
 - `notebooks/create-tiles.ipynb`: `ome-zarr` / `ome-zarr-models`, writes `output/tiles.ome.zarr`
 - `notebooks/create-tiles-ngff-zarr.ipynb`: `ngff-zarr`, writes `output/tiles-ngff.ome.zarr`
@@ -41,6 +46,16 @@ The environment includes `ipykernel`, so it can run as a notebook kernel.
   ```
 
 Run the notebooks from the `notebooks` folder: input and output paths are relative (`../data`, `../output`).
+
+## Viewing in napari
+
+napari-ome-zarr (>= 0.11) reads OME-Zarr 0.6 scenes, but always shows the alphabetically first coordinate system, with no way to select another. `scripts/view_scene.py` opens a scene with a dropdown to select the coordinate system. Run it in an environment with napari and napari-ome-zarr:
+
+```
+python scripts/view_scene.py output/tiles.ome.zarr
+```
+
+Without a path, it opens a folder picker. It also loads each 3-channel 8-bit tile as a single RGB layer, instead of a layer per channel, as napari is slow to add many layers.
 
 ## Troubleshooting
 
