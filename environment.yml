@@ -1,16 +1,19 @@
 name: unstitched-zarr-env
 channels:
  - conda-forge
- - defaults
 dependencies:
  - python=3.12
  - numpy
  - scipy
+ - libblas=*=*openblas    # MKL + llvm-openmp crashes on Windows (0xc06d007f)
  - dask
  - tifffile>=2023.9.26
- - zarr
- - ome-zarr
- - ome-zarr-models
+ - zarr>=3.4.2
+ - ome-zarr>=0.21.0
+ - ome-zarr-models>=1.8.1
  - matplotlib
  - tqdm
+ - ipykernel
  - pip
+ - pip:
+   - ngff-zarr>=0.50.0
