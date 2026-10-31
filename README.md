@@ -64,6 +64,12 @@ pip install "napari-ome-zarr @ git+https://github.com/ccp-volume-em/napari-ome-z
 napari --plugin napari-ome-zarr output/tiles.ome.zarr
 ```
 
+With this branch installed, `view_scene.py --fused` shows the fused layer, with the dropdown to select the coordinate system:
+
+```
+python scripts/view_scene.py --fused output/tiles.ome.zarr
+```
+
 ## Troubleshooting
 
 **The notebook hangs or does nothing, with no error.** The kernel is probably running a different Python. Check with this in the first cell:

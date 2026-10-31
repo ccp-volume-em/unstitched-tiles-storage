@@ -6,8 +6,10 @@ Run in an environment with napari and napari-ome-zarr >= 0.11, e.g.:
     python scripts/view_scene.py output/tiles-ngff.ome.zarr
 
 Without a path, a folder picker asks for the OME-Zarr scene to open.
+With --fused, the tiles are shown fused into a single layer, which needs the fused-scene branch of
+ccp-volume-em/napari-ome-zarr (see README).
 """
-import sys
+import argparse
 from itertools import groupby
 
 import dask.array as da
@@ -34,14 +36,18 @@ def merge_rgb(layers):
             yield from image_layers
 
 
-def load_scene(viewer, group, coordinate_system):
+def load_scene(viewer, group, coordinate_system, scene_class=Scene):
     viewer.layers.clear()
-    for layer_data in merge_rgb(Scene(group).to_layer_data(('', coordinate_system))):
+    for layer_data in merge_rgb(scene_class(group).to_layer_data(('', coordinate_system))):
         viewer.add_layer(napari.layers.Layer.create(*layer_data))
     viewer.reset_view()
 
 
-def main(path=None):
+def main(path=None, fused=False):
+    if fused:
+        from napari_ome_zarr.ome_zarr_reader import FusedScene as scene_class
+    else:
+        scene_class = Scene
     if not path:
         get_qapp()
         path = QFileDialog.getExistingDirectory(None, 'Open OME-Zarr scene')
@@ -53,11 +59,15 @@ def main(path=None):
     viewer = napari.Viewer()
     selector = QComboBox()
     selector.addItems(coordinate_systems)
-    selector.currentTextChanged.connect(lambda name: load_scene(viewer, group, name))
+    selector.currentTextChanged.connect(lambda name: load_scene(viewer, group, name, scene_class))
     viewer.window.add_dock_widget(selector, name='Coordinate system', area='right')
-    load_scene(viewer, group, coordinate_systems[0])
+    load_scene(viewer, group, coordinate_systems[0], scene_class)
     napari.run()
 
 
 if __name__ == '__main__':
-    main(sys.argv[1] if len(sys.argv) > 1 else None)
+    parser = argparse.ArgumentParser(description='Open an OME-Zarr 0.6 scene in napari')
+    parser.add_argument('path', nargs='?', help='OME-Zarr scene (default: folder picker)')
+    parser.add_argument('--fused', action='store_true', help='show the tiles fused into a single layer')
+    args = parser.parse_args()
+    main(args.path, args.fused)
