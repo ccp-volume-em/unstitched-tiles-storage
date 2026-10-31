@@ -57,10 +57,10 @@ python scripts/view_scene.py output/tiles.ome.zarr
 
 Without a path, it opens a folder picker. It also loads each 3-channel 8-bit tile as a single RGB layer, instead of a layer per channel, as napari is slow to add many layers.
 
-Alternatively, the `fused-scene-ome-zarr-06` branch of [ccp-volume-em/napari-ome-zarr](https://github.com/ccp-volume-em/napari-ome-zarr/tree/fused-scene-ome-zarr-06) fuses all tiles into a single layer per scene coordinate system (only the first, `stitched`, visible), using the full OME-Zarr 0.6 coordinate transformations. Install it in the napari environment, and open a scene with the plugin:
+Alternatively, the `fused-scene` branch of [ccp-volume-em/napari-ome-zarr](https://github.com/ccp-volume-em/napari-ome-zarr/tree/fused-scene) fuses all tiles into a single layer per scene coordinate system (only the first, `stitched`, visible), using the full OME-Zarr 0.6 coordinate transformations. Install it in the napari environment, and open a scene with the plugin:
 
 ```
-pip install "napari-ome-zarr @ git+https://github.com/ccp-volume-em/napari-ome-zarr.git@fused-scene-ome-zarr-06"
+pip install "napari-ome-zarr @ git+https://github.com/ccp-volume-em/napari-ome-zarr.git@fused-scene"
 napari --plugin napari-ome-zarr output/tiles.ome.zarr
 ```
 
